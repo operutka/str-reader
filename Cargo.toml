@@ -1,0 +1,14 @@
+[package]
+name = "str-reader"
+version = "0.1.0"
+authors = ["Ondrej Perutka <perutka.ondrej@gmail.com>"]
+edition = "2018"
+readme = "README.md"
+license = "MIT"
+documentation = "https://docs.rs/str-reader/"
+repository = "https://github.com/operutka/str-reader"
+description = """
+Simple reader/parser for formatted strings.
+"""
+keywords = ["parser", "parsing", "string", "reader"]
+categories = ["parsing"]
