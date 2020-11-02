@@ -1,4 +1,4 @@
-# String reader.
+# String reader
 
 [![Crates.io][crates-badge]][crates-url]
 [![MIT licensed][license-badge]][license-url]
@@ -26,6 +26,7 @@ use std::num::ParseIntError;
 
 use str_reader::{ParseError, StringReader};
 
+/// Parse the first line of an HTTP response header.
 fn parse_http_response_line(line: &str) -> Result<(u16, &str), HttpParseError> {
     let mut reader = StringReader::new(line);
 

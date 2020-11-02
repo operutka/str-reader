@@ -1,4 +1,4 @@
-//! # String reader.
+//! # String reader
 //!
 //! Zero-allocation string reader. The string reader can be used to parse
 //! all kinds of values from strings. It can be used for construction of
@@ -15,6 +15,7 @@
 //!
 //! use str_reader::{ParseError, StringReader};
 //!
+//! /// Parse the first line of an HTTP response header.
 //! fn parse_http_response_line(line: &str) -> Result<(u16, &str), HttpParseError> {
 //!     let mut reader = StringReader::new(line);
 //!
@@ -107,7 +108,7 @@ impl<'a> StringReader<'a> {
     }
 
     /// Get the current character (if any) without advancing the input.
-    pub fn current_char(&mut self) -> Option<char> {
+    pub fn current_char(&self) -> Option<char> {
         self.current
     }
 
@@ -310,7 +311,7 @@ impl<'a> StringReader<'a> {
     }
 
     /// Check if the reader is empty.
-    pub fn is_empty(&mut self) -> bool {
+    pub fn is_empty(&self) -> bool {
         self.current_char().is_none()
     }
 
