@@ -108,6 +108,7 @@ impl<'a> StringReader<'a> {
     }
 
     /// Get the current character (if any) without advancing the input.
+    #[inline]
     pub fn current_char(&self) -> Option<char> {
         self.current
     }
@@ -152,13 +153,12 @@ impl<'a> StringReader<'a> {
 
     /// Skip all whitespace characters.
     pub fn skip_whitespace(&mut self) {
-        while let Some(c) = self.current_char() {
-            if c.is_whitespace() {
-                self.skip_char();
-            } else {
-                break;
-            }
-        }
+        let rest = self.input.as_str().trim_start();
+
+        self.input = rest.chars();
+
+        // Peek for the next character without advancing the input.
+        self.current = self.input.clone().next();
     }
 
     /// Match a given string to the input and, if successful, advance the input
@@ -200,19 +200,13 @@ impl<'a> StringReader<'a> {
 
         let index = rest.find(cnd).unwrap_or_else(|| rest.len());
 
-        let (word, rest) = rest.split_at(index);
-
-        self.input = rest.chars();
-
-        // Peek for the next character without advancing the input.
-        self.current = self.input.clone().next();
-
-        word
+        self.split_to(index)
     }
 
     /// Read one word from the input and return it. A word ends with the first
     /// whitespace character or with the end of the input. The method skips all
     /// initial whitespace characters (if any).
+    #[inline]
     pub fn read_word(&mut self) -> &'a str {
         self.skip_whitespace();
         self.read_until(char::is_whitespace)
@@ -224,11 +218,7 @@ impl<'a> StringReader<'a> {
     where
         T: FromStr,
     {
-        let rest = self.input.as_str().trim_start();
-
-        let index = rest.find(char::is_whitespace).unwrap_or_else(|| rest.len());
-
-        let (word, rest) = rest.split_at(index);
+        let (word, rest) = self.first_word();
 
         let parsed = word.parse()?;
 
@@ -241,83 +231,127 @@ impl<'a> StringReader<'a> {
     }
 
     /// Read a decimal integer as i8.
+    #[inline]
     pub fn read_i8(&mut self) -> Result<i8, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as u8.
+    #[inline]
     pub fn read_u8(&mut self) -> Result<u8, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as i16.
+    #[inline]
     pub fn read_i16(&mut self) -> Result<i16, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as u16.
+    #[inline]
     pub fn read_u16(&mut self) -> Result<u16, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as i32.
+    #[inline]
     pub fn read_i32(&mut self) -> Result<i32, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as u32.
+    #[inline]
     pub fn read_u32(&mut self) -> Result<u32, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as i64.
+    #[inline]
     pub fn read_i64(&mut self) -> Result<i64, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as u64.
+    #[inline]
     pub fn read_u64(&mut self) -> Result<u64, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as i128.
+    #[inline]
     pub fn read_i128(&mut self) -> Result<i128, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as u128.
+    #[inline]
     pub fn read_u128(&mut self) -> Result<u128, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as isize.
+    #[inline]
     pub fn read_isize(&mut self) -> Result<isize, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a decimal integer as usize.
+    #[inline]
     pub fn read_usize(&mut self) -> Result<usize, ParseIntError> {
         self.parse_word()
     }
 
     /// Read a floating point number as f32.
+    #[inline]
     pub fn read_f32(&mut self) -> Result<f32, ParseFloatError> {
         self.parse_word()
     }
 
     /// Read a floating point number as f64.
+    #[inline]
     pub fn read_f64(&mut self) -> Result<f64, ParseFloatError> {
         self.parse_word()
     }
 
     /// Check if the reader is empty.
+    #[inline]
     pub fn is_empty(&self) -> bool {
         self.current_char().is_none()
     }
 
     /// Get the rest of the input.
+    #[inline]
     pub fn as_str(&self) -> &'a str {
         self.input.as_str()
+    }
+
+    /// Get the first word and the remainder of the input without advancing the
+    /// input.
+    fn first_word(&self) -> (&'a str, &'a str) {
+        let input = self.input.as_str().trim_start();
+
+        let index = input
+            .find(char::is_whitespace)
+            .unwrap_or_else(|| input.len());
+
+        input.split_at(index)
+    }
+
+    /// Split the input at a given index and return the first part.
+    ///
+    /// The input will contain the remaining part after this operation.
+    fn split_to(&mut self, index: usize) -> &'a str {
+        let rest = self.input.as_str();
+
+        let (word, rest) = rest.split_at(index);
+
+        self.input = rest.chars();
+
+        // Peek for the next character without advancing the input.
+        self.current = self.input.clone().next();
+
+        word
     }
 }
 
