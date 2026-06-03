@@ -2,7 +2,7 @@
 name = "str-reader"
 version = "0.1.2"
 authors = ["Ondrej Perutka <perutka.ondrej@gmail.com>"]
-edition = "2018"
+edition = "2024"
 readme = "README.md"
 license = "MIT"
 documentation = "https://docs.rs/str-reader/"
