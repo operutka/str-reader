@@ -8,8 +8,8 @@
 [crates-url]: https://crates.io/crates/str-reader
 [license-badge]: https://img.shields.io/crates/l/str-reader
 [license-url]: https://github.com/operutka/str-reader/blob/master/LICENSE
-[build-badge]: https://travis-ci.org/operutka/str-reader.svg?branch=master
-[build-url]: https://travis-ci.org/operutka/str-reader
+[build-badge]: https://github.com/operutka/str-reader/actions/workflows/build.yaml/badge.svg?branch=master
+[build-url]: https://github.com/operutka/str-reader/actions/workflows/build.yaml
 
 Zero-allocation string reader. The string reader can be used to parse
 all kinds of values from strings. It can be used for construction of
