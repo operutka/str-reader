@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.3 (2026-06-03)
+
+* Update Rust edition to 2024
+
 ## v0.1.2 (2022-01-19)
 
 * Small code optimizations
