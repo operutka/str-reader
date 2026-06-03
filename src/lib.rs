@@ -191,14 +191,14 @@ impl<'a> StringReader<'a> {
     /// # Arguments
     ///
     /// * `cnd` - a closure that takes a single character and returns
-    /// true/false
+    ///   true/false
     pub fn read_until<F>(&mut self, cnd: F) -> &'a str
     where
         F: FnMut(char) -> bool,
     {
         let rest = self.input.as_str();
 
-        let index = rest.find(cnd).unwrap_or_else(|| rest.len());
+        let index = rest.find(cnd).unwrap_or(rest.len());
 
         self.split_to(index)
     }
@@ -331,9 +331,7 @@ impl<'a> StringReader<'a> {
     fn first_word(&self) -> (&'a str, &'a str) {
         let input = self.input.as_str().trim_start();
 
-        let index = input
-            .find(char::is_whitespace)
-            .unwrap_or_else(|| input.len());
+        let index = input.find(char::is_whitespace).unwrap_or(input.len());
 
         input.split_at(index)
     }
